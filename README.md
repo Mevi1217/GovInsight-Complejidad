@@ -39,7 +39,7 @@ Este proyecto se distingue por la aplicación rigurosa de estructuras de datos y
 
 ---
 
-## 🛠️ Tecnologías Utilizadas
+##  Tecnologías Utilizadas
 
 * **Lenguaje:** Python 3.10+
 * **Procesamiento de Datos:** Pandas
