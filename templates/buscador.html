@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="mat-container">
+    <div class="card card--elevated search-page-card">
+        <h2 class="card-title">
+            <span class="material-icons">search</span> Búsqueda de Productos y Estadísticas
+        </h2>
+        <p>Introduce la descripción exacta o parcial del producto/servicio para analizar su comportamiento.</p>
+
+        <form method="POST" action="{{ url_for('buscador_producto') }}" class="search-form">
+            <input type="text" name="nombre_item" placeholder="Ej: papel bond a4 o AGUA DE MESA" required class="search-input">
+            <button type="submit" class="mat-btn mat-raise">
+                <span class="material-icons">find_in_page</span> Buscar
+            </button>
+        </form>
+    </div>
+
+    {% if error %}
+        <div class="card error-card">
+            <h3 class="card-title" style="color: #d32f2f;">
+                <span class="material-icons">error</span> Error en la Búsqueda
+            </h3>
+            <p>{{ error }}</p>
+            <p>Intenta con otra palabra clave (Ej: 'agua' en lugar de 'ADQUISICION DE AGUA').</p>
+        </div>
+    {% elif resultado %}
+        <div class="card result-card mat-grid-single-column">
+            <h3 class="card-title">
+                <span class="material-icons">assessment</span> Resultados del Análisis Detallado
+            </h3>
+            <pre class="results-box">{{ resultado }}</pre>
+        </div>
+    {% endif %}
+</div>
+
+{% endblock %}

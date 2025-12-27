@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="mat-grid">
+
+    <section class="card card--elevated search-card">
+        <h2 class="card-title">
+            <span class="material-icons">search</span> Búsqueda de Productos
+        </h2>
+        <p>Estadísticas detalladas (monto, proveedores) para un producto específico.</p>
+        <form action="{{ url_for('buscador_producto') }}" method="get">
+            <button class="mat-btn mat-raise search-btn" type="submit">
+                <span class="material-icons">arrow_forward</span> Ir al Buscador
+            </button>
+        </form>
+    </section>
+
+    <section class="card card--elevated visualization-card">
+        <h2 class="card-title">
+            <span class="material-icons">language</span> Visualización del Grafo
+        </h2>
+        <p>Explora el subgrafo interactivo de compras.</p>
+        <div class="btn-row">
+            <form action="{{ url_for('generar_grafo') }}" method="get" target="_blank">
+                <button class="mat-btn mat-raise btn-icon" type="submit">
+                    <span class="material-icons">share</span> Ver Grafo Bipartito
+                </button>
+            </form>
+        </div>
+    </section>
+    
+    <section class="card results-card">
+        <h2 class="card-title">
+            <span class="material-icons">settings</span> Análisis Algorítmicos
+        </h2>
+        <div class="analysis-tabs">
+            <button class="tab-btn active" onclick="showAnalysisGroup('basic')">Básico</button>
+            <button class="tab-btn" onclick="showAnalysisGroup('advanced')">Avanzado</button>
+        </div>
+
+        <div class="analysis-content">
+            <ul class="analysis-list basic-group active">
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/estadisticas')"><span class="material-icons">bar_chart</span> Estadísticas de Datos</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/top-ordenes')"><span class="material-icons">trending_up</span> Top 10 por Producto/Servicios</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/top-montos')"><span class="material-icons">paid</span> Top 10 por Monto</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/interconexiones')"><span class="material-icons">link</span> Interconexiones de Ítems</button></li>
+            </ul>
+
+            <ul class="analysis-list advanced-group">
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/monopolios')"><span class="material-icons">gavel</span> Detección de Monopolios (Fuerza Bruta)</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/rangos-montos')"><span class="material-icons">view_week</span> Análisis por Rangos (Divide y Vencerás)</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/fragmentacion')"><span class="material-icons">scatter_plot</span> Análisis de Fragmentación (BFS)</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/optimizar')"><span class="material-icons">savings</span> Optimización de Presupuesto (DP)</button></li>
+                <li><button class="mat-btn mat-outlined btn-analysis" onclick="runAnalysis('/mst')"><span class="material-icons">mediation</span> Red Esencial de Proveedores (Kruskal)</button></li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="card card--elevated results-card result-box-container">
+        <h2 class="card-title"><span class="material-icons">output</span> Salida de Análisis</h2>
+        <pre id="result-output" class="results-box" role="status" aria-live="polite">Aquí se mostrarán los resultados de los análisis. Presiona un botón para iniciar.</pre>
+    </section>
+
+</div>
+
+<script>
+
+    function showAnalysisGroup(group) {
+        document.querySelectorAll('.analysis-list').forEach(list => {
+            list.classList.remove('active');
+        });
+        document.querySelector('.' + group + '-group').classList.add('active');
+
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.classList.remove('active');
+        });
+        document.querySelector(`.tab-btn[onclick*="${group}"]`).classList.add('active');
+    }
+
+</script>
+
+{% endblock %}
